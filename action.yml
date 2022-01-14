@@ -1,0 +1,77 @@
+name: "Deploy MFE to Dev Environment"
+description: "Deploying MFE to Dev environment ..."
+inputs:
+  aws-access-key-id:
+    description: 'AWS Access Key Id'
+    required: true
+
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: true
+
+  aws-region:
+    description: 'AWS Resource Region'
+    required: true
+
+  submodules-pat-token:
+    description: 'Submodule PAT Token'
+    required: true
+
+  new-relic-api-key:
+    description: 'New Relic API Key'
+    required: true
+
+  new-relic-account-id:
+    description: 'New Relic Account Id'
+    required: true
+
+  new-relic-application-id:
+    description: 'New Relic Application Id'
+    required: true
+
+  new-relic-region:
+    description: 'New Relic Region'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ inputs.submodules-pat-token }}
+        submodules: 'true'
+    - uses: benjlevesque/short-sha@v1.2
+      id: short-sha
+      with:
+        length: 7
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.14.7
+
+    - name: Deploy MFE
+      env: 
+        GIT_SHA: ${{ steps.short-sha.outputs.sha }}
+      working-directory: ./mfe-infrastructure/ci
+      run: ./deploy.sh search-mfe ${{ env.GIT_SHA }} dev
+      shell: bash
+
+    - name: Create New Relic deployment marker
+      uses: newrelic/deployment-marker-action@v1
+      env: 
+        GIT_SHA: ${{ steps.short-sha.outputs.sha }}
+      with:
+        apiKey: ${{ inputs.new-relic-api-key }}
+        accountId: ${{ inputs.new-relic-account-id }}
+        applicationId: ${{ inputs.new-relic-application-id }}
+        revision: "${{ env.GIT_SHA }}"
+        changelog: "See https://github.com/${{ github.repository }}/commit/${{ env.GIT_SHA }} for changes."
+        description: ${{ github.event.head_commit.message }}
+        region: ${{ inputs.new-relic-region }}
+        user: "${{ github.actor }}"    
