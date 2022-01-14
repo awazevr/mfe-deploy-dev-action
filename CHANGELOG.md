@@ -1,3 +1,10 @@
+# 1.0.0 (2022-01-14)
+
+
+### Features
+
+* **MFE-3:** initial commit for this action ([04cc04f](https://github.com/awazevr/mfe-deploy-dev-action/commit/04cc04fb99a6ef745fa91c353af204491522cef0))
+
 ## [1.0.5](https://github.com/awazevr/mfe-publish-assets-action/compare/v1.0.4...v1.0.5) (2022-01-13)
 
 
