@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/awazevr/mfe-deploy-dev-action/compare/v1.0.0...v1.0.1) (2022-01-17)
+
+
+### Bug Fixes
+
+* **MFE-3:** parameterised the deployment environment ([dc8ebd7](https://github.com/awazevr/mfe-deploy-dev-action/commit/dc8ebd7d3252ac1f7d790e165ac0140b2a4d9f3b))
+
 # 1.0.0 (2022-01-14)
 
 
