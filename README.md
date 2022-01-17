@@ -1,11 +1,13 @@
 # mfe-deploy-dev-action
-This is a GitHub Action meant to be used as a [composite action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action) within an existing workflow. This action encapsulates setting up a downloads the artifacts from the build process and publishes to S3 in one step. 
+This is a GitHub Action meant to be used as a [composite action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action) within an existing workflow. This action encapsulates the deployment of mfe to a dev environment. 
 
 The action encapsulates the following other actions:
 
+- [actions/checkout](https://github.com/actions/checkout)
 - [benjlevesque/short-sha](https://github.com/benjlevesque/short-sha)
 - [aws-actions/configure-aws-credentials](https://github.com/aws-actions/configure-aws-credentials)
-- [actions/download-artifact](https://github.com/actions/download-artifact)
+- [hashicorp/setup-terrafom](https://github.com/hashicorp/setup-terraform)
+- [newrelic/deployment-marker-action](https://github.com/newrelic/deployment-marker-action)
 
 
 
@@ -79,7 +81,7 @@ jobs:
           new-relic-account-id: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
           new-relic-application-id: ${{ secrets.NEW_RELIC_APPLICATION_ID }}
           new-relic-region: ${{ secrets.NEW_RELIC_REGION }}
-          deployment-environment
+          deployment-environment: dev
 
 
 
