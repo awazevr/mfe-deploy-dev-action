@@ -33,6 +33,10 @@ inputs:
     description: 'New Relic Region'
     required: true
 
+  deploy-environment:
+    description: 'The AWS deployment environment account '
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -59,7 +63,7 @@ runs:
       env: 
         GIT_SHA: ${{ steps.short-sha.outputs.sha }}
       working-directory: ./mfe-infrastructure/ci
-      run: ./deploy.sh search-mfe ${{ env.GIT_SHA }} dev
+      run: ./deploy.sh search-mfe ${{ env.GIT_SHA }} {{ inputs.deploy-environment }}
       shell: bash
 
     - name: Create New Relic deployment marker
