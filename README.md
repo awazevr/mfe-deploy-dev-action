@@ -43,6 +43,10 @@ The action encapsulates the following other actions:
 
 **Required** Specifies the New Relic account to use.
 
+### `deployment-environment`
+
+**Required** Specifies the environment to deploy, e.g. dev, pprd or prd
+
 
 
 
@@ -54,28 +58,31 @@ name: search-mfe-composite
 
 on:
   push:
-    branches: [ feature/MFE-3 ]
-  # pull_request:
-  #   branches: [ master ]
+    branches: [ main ]
 
   workflow_dispatch:
 
 jobs:
-  build_and_push_image:
+  deploy_dev:
     environment: feature
-    env:
-      ECR_REPOSITORY: dev-age-search-mfe
     runs-on: ubuntu-latest
-
+    needs: [build_and_push_image, publish_static_assets]
     steps:
-      - name: Checkout, Build and Push Docker Image
-        uses: awazevr/docker-build-push-action@v1.0.20
+      - name: Deploy to Dev Environment
+        uses: awazevr/mfe-deploy-dev-action@v1.0.0
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
-          bit-token: ${{ secrets.BIT_TOKEN }}
-          pat-token: ${{ secrets.PAT_TOKEN}}
+          submodules-pat-token: ${{ secrets.SUBMODULE_PAT_TOKEN }}
+          new-relic-api-key: ${{ secrets.NEW_RELIC_API_KEY }}
+          new-relic-account-id: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+          new-relic-application-id: ${{ secrets.NEW_RELIC_APPLICATION_ID }}
+          new-relic-region: ${{ secrets.NEW_RELIC_REGION }}
+          deployment-environment
+
+
+
 
 ```
 
