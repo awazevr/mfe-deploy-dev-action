@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/awazevr/mfe-deploy-dev-action/compare/v1.0.2...v1.0.3) (2022-01-17)
+
+
+### Bug Fixes
+
+* **MFE-3:** updated README.md and example usage ([6ce988e](https://github.com/awazevr/mfe-deploy-dev-action/commit/6ce988e5627a437a8690557edd6732f27bba904b))
+
 ## [1.0.2](https://github.com/awazevr/mfe-deploy-dev-action/compare/v1.0.1...v1.0.2) (2022-01-17)
 
 
