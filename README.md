@@ -49,7 +49,9 @@ The action encapsulates the following other actions:
 
 **Required** Specifies the environment to deploy, e.g. dev, pprd or prd
 
-
+## Dependencies
+* build_and_push_image 
+* publish_static_assets
 
 
 ## Usage
